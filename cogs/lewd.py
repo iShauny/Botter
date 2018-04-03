@@ -28,6 +28,8 @@ class Lewd:
     @commands.group(name="lewdset")
     @commands.has_permissions(manage_guild=True)
     async def lewdset(self, ctx):
+        """Change settings for the Lewd module"""
+
         guild = ctx.guild
         guild_settings = await self.bot.database.get(guild, self)
         if not guild_settings:
@@ -88,9 +90,8 @@ class Lewd:
             await self.bot.send_cmd_help(ctx)
             return
         await self.bot.database.set(channel, {"mode": chosen_mode}, self)
-        await channel.send(
-                           '{0.mention} is now set to {1} mode!'.format(
-                               channel, chosen_mode))
+        await channel.send('{0.mention} is now set to {1} mode!'.format(
+            channel, chosen_mode))
 
     @lewdset.group(name="personal_filter")
     async def personal_filter(self, ctx):
