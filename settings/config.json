@@ -1,5 +1,5 @@
 {
-    "TOKEN": "",
+    "TOKEN": "NDMwNzI1MzUyMTQzMTkyMDg0.DaUXyg.OKU1n6jPgyYQ1gQp9WShuRisgHE",
     "SELFBOT": false,
     "DATABASE": {
         "host": "localhost",
@@ -15,7 +15,9 @@
             "ssl_ca_certs": null
         }
     },
-    "OWNER_ID": null,
-    "DESCRIPTION": "https://github.com/Maselkov/Toothy",
-    "PREFIXES": [">"]
+    "OWNER_ID": 172469797001494528,
+    "DESCRIPTION": "https://github.com/iShauny/Toothy",
+    "PREFIXES": [
+        ">"
+    ]
 }
