@@ -1,4 +1,11 @@
 {
+    "cogs.fun": true,
     "cogs.global": true,
-    "cogs.lewd": true
+    "cogs.lewd": true,
+    "cogs.logger": true,
+    "cogs.meta": true,
+    "cogs.music": true,
+    "cogs.roles": true,
+    "cogs.statistics": true,
+    "cogs.utility": true
 }

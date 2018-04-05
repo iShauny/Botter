@@ -27,6 +27,7 @@ class Lewd:
 
     @commands.group(name="lewdset")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def lewdset(self, ctx):
         """Change settings for the Lewd module"""
 
@@ -42,6 +43,7 @@ class Lewd:
 
     @lewdset.command(usage="<rule34 or e621>", name="toggle")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def toggle(self, ctx, site_name):
         guild = ctx.guild
         guild_data = await self.bot.database.get(guild, self)
@@ -76,6 +78,7 @@ class Lewd:
 
     @lewdset.command(name="channel")
     @commands.has_permissions(manage_channels=True)
+    @commands.guild_only()
     async def channel(self, ctx, mode):
         """Sets channel mode.
 
@@ -94,6 +97,7 @@ class Lewd:
             channel, chosen_mode))
 
     @lewdset.group(name="personal_filter")
+    @commands.guild_only()
     async def personal_filter(self, ctx):
         """Personal Filter Management"""
         if ctx.invoked_subcommand is None or isinstance(
@@ -102,6 +106,7 @@ class Lewd:
             return
 
     @personal_filter.command(name="add")
+    @commands.guild_only()
     async def pf_add(self, ctx, *tags):
         """Add tags to the personal filter. Seperate with a space"""
 
@@ -134,6 +139,7 @@ class Lewd:
             await channel.send('Tags already in filter!')
 
     @personal_filter.command(name="remove")
+    @commands.guild_only()
     async def pf_remove(self, ctx, *tags):
         """Remove words from the personal filter. Seperate with a space."""
 
@@ -159,6 +165,7 @@ class Lewd:
             await ctx.send('The specified tags are not in your filter')
 
     @personal_filter.command(name="show")
+    @commands.guild_only()
     async def pf_show(self, ctx):
         """Show your current filter"""
 
@@ -190,6 +197,7 @@ class Lewd:
 
     @lewdset.group(name="server_filter")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def server_filter(self, ctx):
         """Server Filter Management"""
         if ctx.invoked_subcommand is None or isinstance(
@@ -199,6 +207,7 @@ class Lewd:
 
     @server_filter.command(name="add")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def sf_add(self, ctx, *tags):
         """Add words to the server's filter"""
 
@@ -229,6 +238,7 @@ class Lewd:
 
     @server_filter.command(name="remove")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def sf_remove(self, ctx, *tags):
         """Remove words from the server's filter"""
 
@@ -257,6 +267,7 @@ class Lewd:
 
     @server_filter.command(name="show")
     @commands.has_permissions(manage_guild=True)
+    @commands.guild_only()
     async def sf_show(self, ctx):
         """Show your current filter"""
 
@@ -276,6 +287,7 @@ class Lewd:
         await ctx.send(message)
 
     @commands.command(name="e621")
+    @commands.guild_only()
     async def e621(self, ctx, *tags):
         """Search E621. If no tags are specified, result is random"""
 
@@ -341,6 +353,7 @@ class Lewd:
             await msg.edit(content="Unknown exception occured: {0}".format(e))
 
     @commands.command(name="rule34")
+    @commands.guild_only()
     async def rule34(self, ctx, *tags):
         """Search Rule34. If no tags are specified the result is random"""
 
