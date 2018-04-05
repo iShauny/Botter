@@ -150,7 +150,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.green())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         embed.set_footer(
             text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -182,7 +182,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.red())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         embed.set_footer(
             text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -213,7 +213,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.purple())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         embed.set_footer(
             text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -244,7 +244,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.purple())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         embed.set_footer(
             text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -279,7 +279,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.light_grey())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(name=after.name, icon_url=after.avatar_url)
         embed.set_footer(
             text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -320,7 +320,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.blue())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(
             name=after.author.name, icon_url=after.author.avatar_url)
         embed.set_footer(
@@ -361,7 +361,7 @@ class Logger:
             description=embed_description,
             colour=discord.Colour.gold())
         if guild.icon_url:
-            embed.set_image(guild.icon_url)
+            embed.set_thumbnail(url=guild.icon_url)
         embed.set_author(
             name=message.author.name, icon_url=message.author.avatar_url)
         embed.set_footer(
