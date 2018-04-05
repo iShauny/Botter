@@ -341,6 +341,7 @@ class Roles:
             await ctx.send("'iam' has been enabled")
             return
 
+    @commands.guild_only()
     @commands.command(name="iam")
     async def iam_command(self, ctx, *roles):
         """Join a role on the server that the admin has permitted
@@ -397,6 +398,7 @@ class Roles:
                 "The roles: ``{0}`` have been".format(added_roles) +
                 " added to the user {0}".format(ctx.message.author.mention))
 
+    @commands.guild_only()
     @commands.command(name="iamnot")
     async def iamnot_command(self, ctx, *roles):
         """Leave a role on the server that the admin has permitted
