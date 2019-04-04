@@ -1,11 +1,14 @@
 {
+    "cogs.debug": true,
     "cogs.fun": true,
     "cogs.global": true,
     "cogs.lewd": true,
-    "cogs.logger": true,
+    "cogs.logger": false,
+    "cogs.logger_new": true,
     "cogs.meta": true,
     "cogs.music": true,
     "cogs.roles": true,
     "cogs.statistics": true,
+    "cogs.twitch": true,
     "cogs.utility": true
 }

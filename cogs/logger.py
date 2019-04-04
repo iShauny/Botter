@@ -6,8 +6,7 @@ import logging
 log = logging.getLogger(__name__)
 
 default_settings = {
-    "user_logging_channels": [],
-    "update_logging_channels": [],
+    "logging_channels": [],
     "exceptions": [],
     "on": False,
     "channels": []
@@ -24,9 +23,9 @@ class Logger:
     def __unload(self):
         self.session.close()
 
-    @commands.group(name="logger_set")
+    @commands.group(name="loggerset")
     @commands.has_permissions(manage_guild=True)
-    async def logger_set(self, ctx):
+    async def loggerset(self, ctx):
         """Change the logger settings"""
 
         guild = ctx.guild
@@ -39,7 +38,7 @@ class Logger:
             await self.bot.send_cmd_help(ctx)
             return
 
-    @logger_set.command(name="toggle")
+    @loggerset.command(name="toggle")
     @commands.has_permissions(manage_guild=True)
     async def logger_toggle(self, ctx):
         """Toggle the logger on and off"""
@@ -58,12 +57,13 @@ class Logger:
             await ctx.send("Logger has been enabled")
             return
 
-    @logger_set.command(name="userlog_channels")
+    @loggerset.command(name="logging_channels")
     @commands.has_permissions(manage_guild=True)
-    async def userlog_channels(self, ctx, *channels: discord.TextChannel):
-        """Set the channels that user notifications will be sent to
+    async def logging_channels(self, ctx, *channels: discord.TextChannel):
+        """Set the channels that logs will be sent to
 
-        This includes: User join, leave, ban and unban notifications
+        This includes: Message edits, deletes, user nickname changes
+        user join notifications, user leave notifications
         """
 
         guild = ctx.guild
@@ -78,33 +78,10 @@ class Logger:
             logging_channels.append(channel.id)
 
         await self.bot.database.set(
-            guild, {"user_logging_channels": logging_channels}, self)
+            guild, {"logging_channels": logging_channels}, self)
         await ctx.send("Logging channels set!")
 
-    @logger_set.command(name="updatelog_channels")
-    @commands.has_permissions(manage_guild=True)
-    async def updatelog_channels(self, ctx, *channels: discord.TextChannel):
-        """Set the channels that update notifications will be sent to
-
-        This includes: Message edits, deletes and user nickname changes
-        """
-
-        guild = ctx.guild
-
-        if not channels:
-            await self.bot.send_cmd_help(ctx)
-            return
-
-        logging_channels = []
-
-        for channel in channels:
-            logging_channels.append(channel.id)
-
-        await self.bot.database.set(
-            guild, {"update_logging_channels": logging_channels}, self)
-        await ctx.send("Logging channels set!")
-
-    @logger_set.command(name="exceptions")
+    @loggerset.command(name="exceptions")
     @commands.has_permissions(manage_guild=True)
     async def exceptions(self, ctx, *users: discord.User):
         """Set the users that are exempt from the logger."""
@@ -133,7 +110,7 @@ class Logger:
         guild = user.guild
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("user_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -165,7 +142,7 @@ class Logger:
         guild = user.guild
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("user_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -196,7 +173,7 @@ class Logger:
 
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("user_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -227,7 +204,7 @@ class Logger:
 
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("user_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -259,7 +236,7 @@ class Logger:
         guild = after.guild
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("update_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if before.nick == after.nick:
@@ -299,7 +276,7 @@ class Logger:
         guild = after.guild
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("update_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -309,6 +286,9 @@ class Logger:
             return
 
         if after.author == self.bot.user:
+            return
+
+        if before.content == after.content:
             return
 
         embed_description = ("{0} has edited their message in the ".format(
@@ -341,7 +321,7 @@ class Logger:
         guild = message.guild
         guild_settings = await self.bot.database.get(guild, self)
         logger_enabled = guild_settings.get("on")
-        logger_channels = guild_settings.get("update_logging_channels")
+        logger_channels = guild_settings.get("logging_channels")
         exceptions = guild_settings.get("exceptions")
 
         if not logger_enabled:
@@ -354,8 +334,8 @@ class Logger:
             return
 
         embed_description = ("{0} has has a message deleted in the ".format(
-            message.author.mention) +
-                             "server.\n\nContent: {0}".format(message.content))
+            message.author.mention) + "server.\n\nContent: {0}".format(
+                message.content))
         embed = discord.Embed(
             title="Message Deleted",
             description=embed_description,

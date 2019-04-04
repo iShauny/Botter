@@ -148,7 +148,7 @@ class Global:
     async def presence_mgr_type(self, ctx, activity_type):
         """Sets type for presence manager
 
-        Possible values: playing, listening, watching
+
         """
         activity_type = activity_type.lower()
         if activity_type not in ACTIVITY_TYPES:

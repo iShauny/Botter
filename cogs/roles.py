@@ -181,6 +181,7 @@ class Roles:
             return
 
     @commands.guild_only()
+    @commands.has_permissions(administrator=True)
     @commands.group(name="iamroles")
     async def iamroles(self, ctx):
         """Assign yourself a role on the server
@@ -212,8 +213,8 @@ class Roles:
             return
 
         if not roles:
-            await ctx.send(
-                "There are no roles that users are" + " able to join.")
+            await ctx.send("There are no roles that users are" +
+                           " able to join.")
             return
 
         role_names = []
@@ -223,8 +224,8 @@ class Roles:
                 role_names.append(role.name)
 
         roles = ", ".join(role_names)
-        await ctx.send(
-            "The roles users can join" + " are: ``{0}``".format(roles))
+        await ctx.send("The roles users can join" +
+                       " are: ``{0}``".format(roles))
 
     @iamroles.command(name="add")
     async def iam_add(self, ctx, *roles):
@@ -295,8 +296,8 @@ class Roles:
             return
 
         if not iamroles:
-            await ctx.send(
-                "This server has no roles that a" + " user can join.")
+            await ctx.send("This server has no roles that a" +
+                           " user can join.")
             return
 
         removed = False
@@ -451,9 +452,10 @@ class Roles:
 
         if removed:
             removed_roles = ", ".join(removed_roles)
-            await ctx.send("The roles: ``{0}`` have been".format(removed_roles)
-                           + " removed from the user {0}".format(
-                               ctx.message.author.mention))
+            await ctx.send(
+                "The roles: ``{0}`` have been".format(removed_roles) +
+                " removed from the user {0}".format(ctx.message.author.mention)
+            )
 
     async def on_guild_role_delete(self, role):
         guild = role.guild
@@ -472,6 +474,11 @@ class Roles:
         autorole_roles = guild_settings.get("autorole_roles", [])
 
         autorole_roles_array = []
+        autorole_on = guild_settings.get("autorole_on", [])
+
+        if not autorole_on:
+            await user.ctx.send("Autorole is disabled in this server")
+            return
 
         if not autorole_roles:
             return

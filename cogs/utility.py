@@ -39,7 +39,7 @@ class Utility:
                 return
 
     @commands.command(name="noroles")
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.guild_only()
     async def noroles(self, ctx):
         """List all users in the server with no roles"""
@@ -48,10 +48,10 @@ class Utility:
 
         try:
             await ctx.send("The following users have no roles:\n" + "\n".join([
-                mem.mention for mem in guild.members if (len(mem.roles == 1))
+                mem.mention for mem in guild.members if (len(mem.roles) == 1)
             ]))
         except Exception as e:
-            await ctx.send("Error: {1}".format(e))
+            await ctx.send("Error: {}".format(e))
 
     @commands.command(name="serverinfo")
     @commands.guild_only()
@@ -173,6 +173,52 @@ class Utility:
         except discord.HTTPException:
             await ctx.send("I need the `Embed links` permission "
                            "to send this")
+
+    @commands.group(name="cleanup")
+    @commands.guild_only()
+    @commands.has_permissions(manage_messages=True)
+    async def cleanup(self, ctx):
+        """Deletes messages."""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+
+    @cleanup.command()
+    async def after(self, ctx, message_id):
+        """Deletes all messages after specified message
+
+        To get a message id, enable developer mode in Discord's
+        settings, 'appearance' tab. Then right click a message
+        and copy its id.
+        """
+
+        channel = ctx.message.channel
+        guild = ctx.guild
+
+        after = await channel.get_message(message_id)
+
+        if not channel.permissions_for(guild.me).manage_messages:
+            await ctx.send("I'm not allowed to delete messages.")
+            return
+        elif not after:
+            await ctx.send("Message not found.")
+            return
+        await channel.purge(limit=1000, after=after)
+
+    @cleanup.command()
+    async def messages(self, ctx, number: int):
+        """Deletes last X messages.
+
+        Example:
+        cleanup messages 26"""
+
+        channel = ctx.message.channel
+        guild = ctx.guild
+
+        if not channel.permissions_for(guild.me).manage_messages:
+            await ctx.send("I'm not allowed to delete messages.")
+            return
+
+        await channel.purge(limit=number)
 
 
 def setup(bot):

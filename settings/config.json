@@ -1,10 +1,10 @@
 {
-    "TOKEN": "",
+    "TOKEN": "NDMwNzI1MzUyMTQzMTkyMDg0.DagFEw.AzGlNmcHjVmKJgODBvS1Al1knnA",
     "SELFBOT": false,
     "DATABASE": {
         "host": "localhost",
         "port": 27017,
-        "name": "toothy",
+        "name": "botter",
         "credentials": {
             "user": null,
             "pass": null,
@@ -16,7 +16,7 @@
             "ssl_ca_certs": null
         }
     },
-    "OWNER_ID": 0,
+    "OWNER_ID": 172469797001494528,
     "DESCRIPTION": "https://github.com/iShauny/Toothy",
     "PREFIXES": [
         ">"

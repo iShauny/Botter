@@ -26,7 +26,6 @@ class Lewd:
         self.session.close()
 
     @commands.group(name="lewdset")
-    @commands.has_permissions(manage_guild=True)
     @commands.guild_only()
     async def lewdset(self, ctx):
         """Change settings for the Lewd module"""
@@ -190,8 +189,8 @@ class Lewd:
         message = (
             "{0.mention},".format(user) + " you're currently filtering the " +
             "following tags: {0}\n\n".format(personal_filter) +
-            " {0} is currently filtering the ".format(guild.name) +
-            "following tags: {0}".format(guild_filter))
+            " {0} is currently filtering the ".format(
+                guild.name) + "following tags: {0}".format(guild_filter))
 
         await ctx.send(message)
 
